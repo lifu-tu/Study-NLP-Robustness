@@ -76,7 +76,7 @@ make train-Mbert exp=mnli_seed_m/ber task=MNLI  a-task=QQP   test-split=dev_matc
      gpu=0 nepochs=10  seed=2 learningS=1 lr=0.00002
 ```
 
-#### RoBERTa-Larger multi-task learning one MNLI and QQP with gradient accumulation:
+#### RoBERTa-Large multi-task learning one MNLI and QQP with gradient accumulation:
 ```
 make train-Mbert exp=mnli_seed_m/robertal task=MNLI  a-task=PAWSall  train-split=mnli_snli_train \
       a-train-split=paws_qqp test-split=dev_matched  bs=4 accm=8  model_type_a=robertal \
