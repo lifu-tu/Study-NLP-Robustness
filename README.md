@@ -13,13 +13,13 @@ Code for the paper "[An Empirical Study on Robustness to Spurious Correlations u
 
 ## Train models
 
-### baseline (BERT finetuning with 3 epoch)
-- train on MNLI, test on MNLI dev and HANS
+### Baseline (finetuning for 3 epochs)
+#### train on MNLI, test on MNLI dev and HANS
 ```
 make train-bert exp=mnli_seed/bert task=MNLI   test-split=dev_matched bs=32   gpu=0 \
      nepochs=3  seed=2 lr=0.00002
 ```
-- train on QQP, test on QQP dev and PAWS
+#### train on QQP, test on QQP dev and PAWS
 ```
 make train-bert exp=mnli_seed/bert task=QQP   test-split=dev bs=32   gpu=0  \
      nepochs=3  seed=2 lr=0.00002
@@ -35,22 +35,22 @@ make train-bert exp=mnli_seed/bert task=QQP   test-split=dev bs=32   gpu=0  \
 - `lr`: learning rate
 
 
-### single task learning (BERT finetuning with more epoches)
+### Single task learning (finetuning for more epochs)
 
-- one exmple for NLI task training on MNLI dataset(BERT-BASE)
+#### Training on MNLI dataset (BERT-BASE)
 ```
 make train-bert exp=mnli_seed/bert task=MNLI   test-split=dev_matched bs=32 \
    gpu=0 nepochs=10  seed=2 lr=0.00002
 ```
 
-- one exmple for para task training on QQP dataset (RoBERTa-BASE)
+#### Training on QQP dataset (RoBERTa-BASE)
 ```
 make train-bert exp=qqp_seed/roberta task=QQP   test-split=dev  gpu=3 \
      nepochs=10 model_type_a=roberta  model_name=openwebtext_ccnews_stories_books_cased \
      bs=32  seed=2  lr=0.00002
 ```
 
-- one example for NLI task training on MNLI dataset with Roberta large
+#### Training on MNLI dataset with Roberta large
 ```
 make train-bert exp=mnli_seed/robertal task=MNLI   test-split=dev_matched  \
      gpu=0 nepochs=10 model_type_a=robertal   model_name=openwebtext_ccnews_stories_books_cased \
@@ -61,46 +61,44 @@ make train-bert exp=mnli_seed/robertal task=MNLI   test-split=dev_matched  \
 - `model_name`: the dataset used for language model training: 'book\_corpus\_wiki\_en\_uncased' for BERT, 'openwebtext\_ccnews\_stories\_books\_cased' foor RoBERTa
 
 
-### multi-task learning (MTL)
+### Multi-task learning (MTL)
 
-- `task`: the target datasets
-- `a-task`: the auxiliary datasets
-- `learningS`: 0:gradient accumulation; 1: traditional MTL tasking
-- `accm` : the number of steps for gradient accumulation 
-- `train-split` : which split to use for training
-- `a-train-split` : which split to use for training for auxiliary datasets
-
-
-- one example for BERT multi-task learning (MNLI and QQP): 
+#### BERT multi-task learning on MNLI and QQP: 
 ```
 make train-Mbert exp=mnli_seed_m/ber task=MNLI  a-task=QQP   test-split=dev_matched \
      model_type_a=bert gpu=0 nepochs=10  seed=2 learningS=1 lr=0.00002
 ```
 
-- one example for RoBERTa multi-task learning (MNLI and QQP):
+#### RoBERTa multi-task learning on MNLI and QQP:
 ```
 make train-Mbert exp=mnli_seed_m/ber task=MNLI  a-task=QQP   test-split=dev_matched \
      model_type_a=roberta model_name=openwebtext_ccnews_stories_books_cased \
      gpu=0 nepochs=10  seed=2 learningS=1 lr=0.00002
 ```
 
--one example for RoBERTa-Larger multi-task learning with gradient accumulation (MNLI and QQP):
+#### RoBERTa-Larger multi-task learning one MNLI and QQP with gradient accumulation:
 ```
 make train-Mbert exp=mnli_seed_m/robertal task=MNLI  a-task=PAWSall  train-split=mnli_snli_train \
       a-train-split=paws_qqp test-split=dev_matched  bs=4 accm=8  model_type_a=robertal \
       model_name=openwebtext_ccnews_stories_books_cased gpu=2 nepochs=5 \
       seed=2 learningS=0 lr=0.00002
 ```
+- `task`: the target datasets
+- `a-task`: the auxiliary datasets
+- `learningS`: 0:gradient accumulation; 1: traditional MTL tasking
+- `accm` : the number of steps for gradient accumulation
+- `train-split` : which split to use for training
+- `a-train-split` : which split to use for training for auxiliary datasets
 
 
 ## Evaluation:
 Following are several examples for the evaluation of trained models on the specific task:
 
-### SNLI: 
+#### SNLI: 
 `make test test-split=test from=[path to model] test_model=[model]   task=SNLI`
-### HANS: 
+#### HANS: 
 `make test test-split=lexical_overlap   from=[path to model]  test_model=[model]    task=MNLI-hans`
-### PAWS: 
+#### PAWS: 
 `make test test-split=dev   from=[path to model]  test_model=[model]  task=PAWS` 
 
 - `test-split` : which split to be evaluated
