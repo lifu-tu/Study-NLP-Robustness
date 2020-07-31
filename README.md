@@ -96,9 +96,13 @@ make train-Mbert exp=mnli_seed_m/robertal task=MNLI  a-task=PAWSall  train-split
 ## Evaluation:
 Following are several examples for the evaluation of trained models on the specific task:
 
-### SNLI: `make test test-split=test from=[path to model] test_model=[model]   task=SNLI`
-### HANS: `make test test-split=lexical_overlap   from=[path to model]  test_model=[model]    task=MNLI-hans`
-### PAWS: `make test test-split=dev   from=[path to model]  test_model=[model]  task=PAWS` 
+### SNLI: 
+`make test test-split=test from=[path to model] test_model=[model]   task=SNLI`
+### HANS: 
+`make test test-split=lexical_overlap   from=[path to model]  test_model=[model]    task=MNLI-hans`
+### PAWS: 
+`make test test-split=dev   from=[path to model]  test_model=[model]  task=PAWS` 
+
 - `test-split` : which split to be evaluated
 - `from` : the directory to save models
 - `test_model` : the save model file name
